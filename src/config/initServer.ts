@@ -1,6 +1,6 @@
 import Express from "express";
 import cors from "cors";
-import initRoutes from "./init-routes";
+import initRoutes from "./initRoutes";
 
 import mongoose from "mongoose";
 import { requestLogger } from "../utils/logger";
@@ -20,7 +20,7 @@ async function initServer() {
   await mongoose.connect(process.env.DB_URL);
   await initRoutes();
   app.listen(PORT, () => {
-    console.log("server is started ");
+    console.log("server is started");
   });
 }
 

@@ -1,4 +1,4 @@
 require("dotenv").config();
-import { initServer } from "./config/init-server";
+import { initServer } from "./config/initServer";
 
 initServer();

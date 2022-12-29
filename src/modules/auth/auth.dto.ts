@@ -16,7 +16,7 @@ interface LoginDto {
   password: string;
 }
 
-const singupDto = yup.object().shape({
+const signUpDto = yup.object().shape({
   name: yup
     .string()
     .required("name is required")
@@ -60,7 +60,7 @@ async function validateLoginDto(req: Request, res: Response, next) {
 async function validateSignUpDto(req: Request, res: Response, next) {
   try {
     req.body = trimAllStrings(req.body);
-    req.body = await singupDto.validate(req.body, {
+    req.body = await signUpDto.validate(req.body, {
       stripUnknown: true,
     });
 

@@ -1,14 +1,15 @@
 import { Response, Request, NextFunction } from "express";
 import { CustomError } from "./exceptions";
-import ResponseBodyBuilder from "./response-body-builder";
+import ResponseBodyBuilder from "./responseBodyBuilder";
 
-async function handleError(error: Error, req: Request, res: Response, next) {
-  const responseBody = new ResponseBodyBuilder();
-
-  responseBody.setStatusCode(500);
-  responseBody.setError(error.message);
-
-  res.status(500).json(responseBody);
+function invalidPathHandler(
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
+  response.status(404).json({
+    error: "invalid path",
+  });
 }
 
 async function handleClientError(
@@ -28,14 +29,13 @@ async function handleClientError(
   next(error);
 }
 
-function invalidPathHandler(
-  request: Request,
-  response: Response,
-  next: NextFunction
-) {
-  response.status(404).json({
-    error: "invalid path",
-  });
+async function handleError(error: Error, req: Request, res: Response, next) {
+  const responseBody = new ResponseBodyBuilder();
+
+  responseBody.setStatusCode(500);
+  responseBody.setError(error.message);
+
+  res.status(500).json(responseBody);
 }
 
 export { handleClientError, handleError, invalidPathHandler };

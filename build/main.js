@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
-const init_server_1 = require("./config/init-server");
-(0, init_server_1.initServer)();
+const initServer_1 = require("./config/initServer");
+(0, initServer_1.initServer)();

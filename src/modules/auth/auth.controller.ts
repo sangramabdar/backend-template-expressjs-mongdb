@@ -1,33 +1,37 @@
 import { Response, Request } from "express";
 
 import { loginService, signUpService } from "./auth.service";
-import ResponseBodyBuilder from "../../utils/response-body-builder";
-import { generateAccessToken } from "../../utils/validation";
+import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
+import { generateAccessToken } from "../../utils/jwt";
 
 async function loginController(req: Request, res: Response, next) {
-  const result = await loginService(req).catch(next);
+  try {
+    const result = await loginService(req);
 
-  if (!result) return;
+    const accessToken = await generateAccessToken(result, "24h");
 
-  const accessToken = await generateAccessToken(result, "24h");
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(200)
+      .setData({ accessToken, _id: result._id });
 
-  const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(200)
-    .setData({ accessToken, _id: result._id });
-
-  res.status(200).json(responseBody);
+    res.status(200).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
 }
 
-async function signupController(req: Request, res: Response, next) {
-  const result = await signUpService(req).catch(next);
+async function signUpController(req: Request, res: Response, next) {
+  try {
+    const result = await signUpService(req);
 
-  if (!result) return;
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(201)
+      .setData(result);
 
-  const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(201)
-    .setData(result);
-
-  res.status(201).json(responseBody);
+    res.status(201).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
 }
 
-export { loginController, signupController };
+export { loginController, signUpController };

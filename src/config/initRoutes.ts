@@ -1,11 +1,11 @@
-import { app } from "./init-server";
+import { app } from "./initServer";
 import RootRouter from "../modules/root/root.router";
 import authRouter from "../modules/auth/auth.router";
 import {
   handleClientError,
   handleError,
   invalidPathHandler,
-} from "../utils/error-middleware";
+} from "../utils/errorMiddleware";
 import { errorLogger } from "../utils/logger";
 
 async function initRoutes() {

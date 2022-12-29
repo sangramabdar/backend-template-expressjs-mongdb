@@ -5,13 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.invalidPathHandler = exports.handleError = exports.handleClientError = void 0;
 const responseBodyBuilder_1 = __importDefault(require("./responseBodyBuilder"));
-async function handleError(error, req, res, next) {
-    const responseBody = new responseBodyBuilder_1.default();
-    responseBody.setStatusCode(500);
-    responseBody.setError(error.message);
-    res.status(500).json(responseBody);
+function invalidPathHandler(request, response, next) {
+    response.status(404).json({
+        error: "invalid path",
+    });
 }
-exports.handleError = handleError;
+exports.invalidPathHandler = invalidPathHandler;
 async function handleClientError(error, req, res, next) {
     const responseBody = new responseBodyBuilder_1.default();
     if (error.statusCode) {
@@ -23,9 +22,10 @@ async function handleClientError(error, req, res, next) {
     next(error);
 }
 exports.handleClientError = handleClientError;
-function invalidPathHandler(request, response, next) {
-    response.status(404).json({
-        error: "invalid path",
-    });
+async function handleError(error, req, res, next) {
+    const responseBody = new responseBodyBuilder_1.default();
+    responseBody.setStatusCode(500);
+    responseBody.setError(error.message);
+    res.status(500).json(responseBody);
 }
-exports.invalidPathHandler = invalidPathHandler;
+exports.handleError = handleError;

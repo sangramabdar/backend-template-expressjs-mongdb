@@ -27,7 +27,7 @@ exports.validateLoginDto = exports.validateSignUpDto = void 0;
 const yup = __importStar(require("yup"));
 const exceptions_1 = require("../../utils/exceptions");
 const utils_1 = require("../../utils/utils");
-const singupDto = yup.object().shape({
+const signUpDto = yup.object().shape({
     name: yup
         .string()
         .required("name is required")
@@ -69,7 +69,7 @@ exports.validateLoginDto = validateLoginDto;
 async function validateSignUpDto(req, res, next) {
     try {
         req.body = (0, utils_1.trimAllStrings)(req.body);
-        req.body = await singupDto.validate(req.body, {
+        req.body = await signUpDto.validate(req.body, {
             stripUnknown: true,
         });
         if (req.body["password"] !== req.body["confirmPassword"]) {

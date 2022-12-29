@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = exports.initServer = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const init_routes_1 = __importDefault(require("./init-routes"));
+const initRoutes_1 = __importDefault(require("./initRoutes"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const logger_1 = require("../utils/logger");
 const PORT = 8080;
@@ -19,7 +19,7 @@ async function initServer() {
     }));
     app.use(logger_1.requestLogger);
     await mongoose_1.default.connect(process.env.DB_URL);
-    await (0, init_routes_1.default)();
+    await (0, initRoutes_1.default)();
     app.listen(PORT, () => {
         console.log("server is started");
     });
