@@ -2,36 +2,29 @@ import { Response, Request } from "express";
 
 import { loginService, signUpService } from "./auth.service";
 import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
-import { generateAccessToken } from "../../utils/jwt";
 
 async function loginController(req: Request, res: Response, next) {
-  try {
-    const result = await loginService(req);
+  const [data, error] = await loginService(req);
 
-    const accessToken = await generateAccessToken(result, "24h");
+  if (error) return next(error);
 
-    const responseBody = new ResponseBodyBuilder()
-      .setStatusCode(200)
-      .setData({ accessToken, _id: result._id });
+  const responseBody = new ResponseBodyBuilder()
+    .setStatusCode(200)
+    .setData(data);
 
-    res.status(200).json(responseBody);
-  } catch (error) {
-    next(error);
-  }
+  res.status(200).json(responseBody);
 }
 
 async function signUpController(req: Request, res: Response, next) {
-  try {
-    const result = await signUpService(req);
+  const [data, error] = await signUpService(req);
 
-    const responseBody = new ResponseBodyBuilder()
-      .setStatusCode(201)
-      .setData(result);
+  if (error) return next(error);
 
-    res.status(201).json(responseBody);
-  } catch (error) {
-    next(error);
-  }
+  const responseBody = new ResponseBodyBuilder()
+    .setStatusCode(201)
+    .setData(data);
+
+  res.status(201).json(responseBody);
 }
 
 export { loginController, signUpController };
