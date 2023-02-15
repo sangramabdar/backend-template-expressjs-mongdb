@@ -57,6 +57,13 @@ class Unauthorized extends CustomError {
   }
 }
 
+class JWTError extends CustomError {
+  private static message: string = "token is corrupted";
+  constructor(message: string) {
+    super(message, 401);
+  }
+}
+
 export {
   DataBaseConnectionError,
   NotFound,
@@ -66,4 +73,5 @@ export {
   Unauthorized,
   CustomError,
   BadRequest,
+  JWTError,
 };

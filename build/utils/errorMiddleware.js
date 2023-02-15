@@ -19,6 +19,12 @@ async function handleClientError(error, req, res, next) {
         res.status(error.statusCode).json(responseBody);
         return;
     }
+    if (error.name === "ValidationError") {
+        responseBody.setStatusCode(400);
+        responseBody.setError(error.message);
+        res.status(400).json(responseBody);
+        return;
+    }
     next(error);
 }
 exports.handleClientError = handleClientError;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BadRequest = exports.CustomError = exports.Unauthorized = exports.NotRegistered = exports.EmailExists = exports.WrongContent = exports.NotFound = exports.DataBaseConnectionError = void 0;
+exports.JWTError = exports.BadRequest = exports.CustomError = exports.Unauthorized = exports.NotRegistered = exports.EmailExists = exports.WrongContent = exports.NotFound = exports.DataBaseConnectionError = void 0;
 class CustomError extends Error {
     constructor(message, statusCode) {
         super(message);
@@ -59,3 +59,10 @@ class Unauthorized extends CustomError {
 }
 exports.Unauthorized = Unauthorized;
 Unauthorized.message = "unauthorized";
+class JWTError extends CustomError {
+    constructor(message) {
+        super(message, 401);
+    }
+}
+exports.JWTError = JWTError;
+JWTError.message = "token is corrupted";

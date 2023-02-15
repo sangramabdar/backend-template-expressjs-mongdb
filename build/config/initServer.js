@@ -8,7 +8,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const initRoutes_1 = __importDefault(require("./initRoutes"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const logger_1 = require("../utils/logger");
+const morgan_1 = __importDefault(require("morgan"));
+const passport_1 = __importDefault(require("../utils/passport"));
 const PORT = 8080;
 const app = (0, express_1.default)();
 exports.app = app;
@@ -17,9 +18,10 @@ async function initServer() {
     app.use(express_1.default.json({
         type: ["json"],
     }));
-    app.use(logger_1.requestLogger);
+    app.use((0, morgan_1.default)(":method - :url :status - :response-time ms"));
     await mongoose_1.default.connect(process.env.DB_URL);
     await (0, initRoutes_1.default)();
+    await (0, passport_1.default)();
     app.listen(PORT, () => {
         console.log("server is started");
     });
