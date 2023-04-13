@@ -37,6 +37,7 @@ async function googleLoginController(req, res, next) {
         accessToken,
         _id: user._id,
     });
-    res.status(200).json(responebody);
+    const url = `${process.env.CLIENT_URL}/google/?accessToken=${accessToken}`;
+    res.redirect(url);
 }
 exports.googleLoginController = googleLoginController;

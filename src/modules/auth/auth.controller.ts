@@ -41,7 +41,9 @@ async function googleLoginController(req: Request, res: Response, next) {
     _id: user._id,
   });
 
-  res.status(200).json(responebody);
+  const url = `${process.env.CLIENT_URL}/google/?accessToken=${accessToken}`;
+
+  res.redirect(url);
 }
 
 export { loginController, signUpController, googleLoginController };
