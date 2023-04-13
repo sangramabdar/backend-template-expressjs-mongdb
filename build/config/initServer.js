@@ -10,7 +10,7 @@ const initRoutes_1 = __importDefault(require("./initRoutes"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const morgan_1 = __importDefault(require("morgan"));
 const passport_1 = __importDefault(require("../utils/passport"));
-const PORT = 8080;
+const PORT = process.env.PORT;
 const app = (0, express_1.default)();
 exports.app = app;
 async function initServer() {

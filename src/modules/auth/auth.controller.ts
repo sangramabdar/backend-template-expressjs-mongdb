@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 
 import { loginService, signUpService } from "./auth.service";
 import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
+import { generateAccessToken } from "../../utils/jwt";
 
 async function loginController(req: Request, res: Response, next) {
   const [data, error] = await loginService(req);
@@ -27,4 +28,20 @@ async function signUpController(req: Request, res: Response, next) {
   res.status(201).json(responseBody);
 }
 
-export { loginController, signUpController };
+async function googleLoginController(req: Request, res: Response, next) {
+  const user = req.user as any;
+
+  const accessToken = await generateAccessToken({
+    _id: user._id,
+    googleId: user.googleId,
+  });
+
+  const responebody = new ResponseBodyBuilder().setStatusCode(200).setData({
+    accessToken,
+    _id: user._id,
+  });
+
+  res.status(200).json(responebody);
+}
+
+export { loginController, signUpController, googleLoginController };
